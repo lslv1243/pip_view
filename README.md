@@ -1,14 +1,40 @@
 # pip_view
 
-A new Flutter package project.
+Component to allow the presentation of a component below a floating one.
 
-## Getting Started
+## Usage
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+``` dart
+class MyScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return PIPView(
+      builder: (context, isFloating) {
+        return Scaffold(
+          body: Column(
+            children: [
+              Text('This is the screen that will float!');
+              MaterialButton(
+                child: Text('Start floating');
+                onPressed: () {
+                  PIPView.of(context).presentBelow(MyBackgroundScreen());
+                },
+              ),
+            ],
+          );
+        );
+      },
+    );
+  }
+}
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+class MyBackgroundScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Text('This is my background page!');
+    );
+  }
+}
+```
+
