@@ -1,7 +1,6 @@
 name: pip_view
 description: Component to allow the presentation of a component below a floating one.
 version: 0.9.0
-author: Leonardo da Silva
 homepage: https://github.com/lslv1243/pip_view
 
 environment:
