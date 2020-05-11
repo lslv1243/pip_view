@@ -32,7 +32,7 @@ class MyBackgroundScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text('This is my background page!');
+      body: Text('This is my background screen!');
     );
   }
 }
