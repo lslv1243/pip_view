@@ -266,9 +266,8 @@ class PIPViewState extends State<PIPView> with TickerProviderStateMixin {
                     ),
                   );
                 },
-                child: widget.builder(
-                  context,
-                  isFloating,
+                child: Builder(
+                  builder: (context) => widget.builder(context, isFloating),
                 ),
               ),
             ],

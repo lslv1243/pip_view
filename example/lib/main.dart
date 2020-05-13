@@ -20,16 +20,21 @@ class HomeScreen extends StatelessWidget {
         return Scaffold(
           resizeToAvoidBottomInset: !isFloating,
           body: SafeArea(
-            child: Column(
-              children: <Widget>[
-                Text('This page will float!'),
-                MaterialButton(
-                  child: Text('Start floating!'),
-                  onPressed: () {
-                    PIPView.of(context).presentBelow(BackgroundScreen());
-                  },
-                ),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Text('This page will float!'),
+                  MaterialButton(
+                    color: Theme.of(context).primaryColor,
+                    child: Text('Start floating!'),
+                    onPressed: () {
+                      PIPView.of(context).presentBelow(BackgroundScreen());
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         );
@@ -43,22 +48,27 @@ class BackgroundScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Text('This is the background page!'),
-            Text('If you tap on the floating screen, it stops floating.'),
-            Text('Navigation works as expected.'),
-            MaterialButton(
-              child: Text('Push to navigation'),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => NavigatedScreen(),
-                  ),
-                );
-              },
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Text('This is the background page!'),
+              Text('If you tap on the floating screen, it stops floating.'),
+              Text('Navigation works as expected.'),
+              MaterialButton(
+                color: Theme.of(context).primaryColor,
+                child: Text('Push to navigation'),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => NavigatedScreen(),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -73,12 +83,19 @@ class NavigatedScreen extends StatelessWidget {
         title: Text('Navigated Screen'),
       ),
       body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Text('This is the page you navigated to.'),
-            Text('See how it stays below the floating page?'),
-            Text('Just amazing!'),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Text('This is the page you navigated to.'),
+              Text('See how it stays below the floating page?'),
+              Text('Just amazing!'),
+              Spacer(),
+              Text('It also avoids keyboard!'),
+              TextField(),
+            ],
+          ),
         ),
       ),
     );
