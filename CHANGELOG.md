@@ -1,11 +1,17 @@
-## [0.9.2] - 11/05/2020
+## [0.9.3]
+
+* Fix error where the context provided by the builder would not contain the PIPView
+* Added an example app
+* Add better video example to README
+
+## [0.9.2] 
 
 * Added youtube link to README
 
-## [0.9.1] - 11/05/2020
+## [0.9.1]
 
 * Improve readme
 
-## [0.9.0] - 11/05/2020
+## [0.9.0] 
 
 * First version

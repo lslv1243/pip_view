@@ -7,7 +7,7 @@ Widget to allow the presentation of a widget below a floating one. It supports m
 Create a `PIPView` widget, the prop `builder` will be the view rendered floating when requested. To present a view below the floating view use `PIPView.of(context).presentBelow(MyWidget())`.
 
 Link for better understanding:
-https://youtu.be/CZ9pFHsARdw
+https://youtu.be/jOvRqJRq8O0
 
 
 ### Props:
