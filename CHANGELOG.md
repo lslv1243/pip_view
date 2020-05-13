@@ -2,7 +2,7 @@
 
 * Fix error where the context provided by the builder would not contain the PIPView
 * Added an example app
-* Add better video example to README
+* Added better video example to README
 
 ## [0.9.2] 
 
