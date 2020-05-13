@@ -27,8 +27,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.4"
-  provider:
+  pip_view:
     dependency: "direct main"
+    description:
+      path: ".."
+      relative: true
+    source: path
+    version: "0.9.2"
+  provider:
+    dependency: transitive
     description:
       name: provider
       url: "https://pub.dartlang.org"

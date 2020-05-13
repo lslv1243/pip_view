@@ -1,0 +1,18 @@
+name: example
+version: 1.0.0
+homepage: https://github.com/lslv1243/pip_view
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  pip_view:
+
+dependency_overrides:
+  pip_view:
+    path: ../
+
+flutter:
+  uses-material-design: true
