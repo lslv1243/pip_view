@@ -10,7 +10,7 @@ class InheritedPIPView extends InheritedWidget {
     Key key,
     @required Widget child,
     @required this.value,
-  }): super(key: key, child: child);
+  }) : super(key: key, child: child);
 
   @override
   bool updateShouldNotify(InheritedPIPView oldWidget) {
