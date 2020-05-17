@@ -1,3 +1,7 @@
+## [0.9.4]
+
+* Remove Provider dependency
+
 ## [0.9.3]
 
 * Fix error where the context provided by the builder would not contain the PIPView

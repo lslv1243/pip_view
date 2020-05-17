@@ -1,13 +1,12 @@
 name: pip_view
 description: Widget to allow the presentation of a widget below a floating one.
-version: 0.9.3
+version: 0.9.4
 homepage: https://github.com/lslv1243/pip_view
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  provider: ^4.1.1
   flutter:
     sdk: flutter
 

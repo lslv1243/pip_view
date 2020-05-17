@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'dismiss_keyboard.dart';
 import 'constants.dart';
+
+class InheritedPIPView extends InheritedWidget {
+  final PIPViewState value;
+
+  InheritedPIPView({
+    Key key,
+    @required Widget child,
+    @required this.value,
+  }): super(key: key, child: child);
+
+  @override
+  bool updateShouldNotify(InheritedPIPView oldWidget) {
+    return value != oldWidget.value;
+  }
+}
 
 class PIPView extends StatefulWidget {
   final PIPViewCorner initialCorner;
@@ -28,7 +42,7 @@ class PIPView extends StatefulWidget {
   PIPViewState createState() => PIPViewState();
 
   static PIPViewState of(BuildContext context) {
-    return Provider.of<PIPViewState>(context, listen: false);
+    return context.dependOnInheritedWidgetOfExactType<InheritedPIPView>().value;
   }
 }
 
@@ -178,7 +192,7 @@ class PIPViewState extends State<PIPView> with TickerProviderStateMixin {
             ? floatingWidgetSize.width / fullWidgetSize.width
             : floatingWidgetSize.height / fullWidgetSize.height;
 
-        return Provider<PIPViewState>.value(
+        return InheritedPIPView(
           value: this,
           child: Stack(
             children: <Widget>[
