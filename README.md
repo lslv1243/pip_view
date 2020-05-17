@@ -2,13 +2,14 @@
 
 Widget to allow the presentation of a widget below a floating one. It supports moving the floating widget around which sticks to the corners.
 
+![Example GIF](https://s6.gifyu.com/images/86A50E47-6E31-40D4-9E9F-38E0F6C119F3.gif)
+
+If the GIF does not work, you can check the example here:
+https://youtu.be/jOvRqJRq8O0
+
 ## Usage
 
 Create a `PIPView` widget, the prop `builder` will be the view rendered floating when requested. To present a view below the floating view use `PIPView.of(context).presentBelow(MyWidget())`.
-
-Link for better understanding:
-https://youtu.be/jOvRqJRq8O0
-
 
 ### Props:
 
