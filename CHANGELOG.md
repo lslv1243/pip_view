@@ -1,3 +1,8 @@
+## [0.9.5]
+
+* Removed Inherited Widget indirection
+* Added example launch script for vscode
+
 ## [0.9.4]
 
 * Remove Provider dependency
