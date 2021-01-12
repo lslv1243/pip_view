@@ -30,7 +30,7 @@ class HomeScreen extends StatelessWidget {
                     color: Theme.of(context).primaryColor,
                     child: Text('Start floating!'),
                     onPressed: () {
-                      PIPView.of(context).presentBelow(BackgroundScreen());
+                      PIPView.of(context)!.presentBelow(BackgroundScreen());
                     },
                   ),
                 ],

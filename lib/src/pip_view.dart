@@ -5,8 +5,8 @@ import 'constants.dart';
 
 class PIPView extends StatefulWidget {
   final PIPViewCorner initialCorner;
-  final double floatingWidth;
-  final double floatingHeight;
+  final double? floatingWidth;
+  final double? floatingHeight;
   final bool avoidKeyboard;
 
   final Widget Function(
@@ -15,8 +15,8 @@ class PIPView extends StatefulWidget {
   ) builder;
 
   const PIPView({
-    Key key,
-    @required this.builder,
+    Key? key,
+    required this.builder,
     this.initialCorner = PIPViewCorner.topRight,
     this.floatingWidth,
     this.floatingHeight,
@@ -26,16 +26,16 @@ class PIPView extends StatefulWidget {
   @override
   PIPViewState createState() => PIPViewState();
 
-  static PIPViewState of(BuildContext context) {
+  static PIPViewState? of(BuildContext context) {
     return context.findAncestorStateOfType<PIPViewState>();
   }
 }
 
 class PIPViewState extends State<PIPView> with TickerProviderStateMixin {
-  Widget _bottomView;
-  AnimationController _toggleFloatingAnimationController;
-  AnimationController _dragAnimationController;
-  PIPViewCorner _corner;
+  Widget? _bottomView;
+  late final AnimationController _toggleFloatingAnimationController;
+  late final AnimationController _dragAnimationController;
+  late PIPViewCorner _corner;
   Offset _dragOffset = Offset.zero;
   bool _isDragging = false;
   Map<PIPViewCorner, Offset> _offsets = {};
@@ -55,9 +55,9 @@ class PIPViewState extends State<PIPView> with TickerProviderStateMixin {
   }
 
   void _updateCornersOffsets({
-    Size spaceSize,
-    Size widgetSize,
-    EdgeInsets windowPadding,
+    required Size spaceSize,
+    required Size widgetSize,
+    required EdgeInsets windowPadding,
   }) {
     _offsets = _calculateOffsets(
       spaceSize: spaceSize,
@@ -131,7 +131,7 @@ class PIPViewState extends State<PIPView> with TickerProviderStateMixin {
   void _onPanStart(DragStartDetails details) {
     if (_isAnimating()) return;
     setState(() {
-      _dragOffset = _offsets[_corner];
+      _dragOffset = _offsets[_corner]!;
       _isDragging = true;
     });
   }
@@ -149,8 +149,8 @@ class PIPViewState extends State<PIPView> with TickerProviderStateMixin {
       builder: (context, constraints) {
         final width = constraints.maxWidth;
         final height = constraints.maxHeight;
-        double floatingWidth = widget.floatingWidth;
-        double floatingHeight = widget.floatingHeight;
+        double? floatingWidth = widget.floatingWidth;
+        double? floatingHeight = widget.floatingHeight;
         if (floatingWidth == null && floatingHeight != null) {
           floatingWidth = width / height * floatingHeight;
         }
@@ -183,7 +183,7 @@ class PIPViewState extends State<PIPView> with TickerProviderStateMixin {
               Navigator(
                 onGenerateRoute: (settings) {
                   return MaterialPageRoute(builder: (_) {
-                    return _bottomView;
+                    return _bottomView!;
                   });
                 },
               ),
@@ -286,17 +286,17 @@ class _CornerDistance {
   final double distance;
 
   _CornerDistance({
-    this.corner,
-    this.distance,
+    required this.corner,
+    required this.distance,
   });
 }
 
 PIPViewCorner _calculateNearestCorner({
-  Offset offset,
-  Map<PIPViewCorner, Offset> offsets,
+  required Offset offset,
+  required Map<PIPViewCorner, Offset> offsets,
 }) {
   _CornerDistance calculateDistance(PIPViewCorner corner) {
-    final distance = offsets[corner]
+    final distance = offsets[corner]!
         .translate(
           -offset.dx,
           -offset.dy,
@@ -316,9 +316,9 @@ PIPViewCorner _calculateNearestCorner({
 }
 
 Map<PIPViewCorner, Offset> _calculateOffsets({
-  Size spaceSize,
-  Size widgetSize,
-  EdgeInsets windowPadding,
+  required Size spaceSize,
+  required Size widgetSize,
+  required EdgeInsets windowPadding,
 }) {
   Offset getOffsetForCorner(PIPViewCorner corner) {
     final spacing = 16;
