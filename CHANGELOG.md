@@ -1,3 +1,7 @@
+## [0.9.6]
+
+* Sound null safety
+
 ## [0.9.5]
 
 * Removed Inherited Widget indirection
