@@ -2,10 +2,7 @@
 
 Widget to allow the presentation of a widget below a floating one. It supports moving the floating widget around which sticks to the corners.
 
-![Example GIF](https://s6.gifyu.com/images/86A50E47-6E31-40D4-9E9F-38E0F6C119F3.gif)
-
-If the GIF does not work, you can check the example here:
-https://youtu.be/jOvRqJRq8O0
+![Example GIF](doc/example.gif)
 
 ## Usage
 
