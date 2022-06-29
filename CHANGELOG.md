@@ -1,3 +1,7 @@
+## [0.9.7]
+
+* Exposing declarative API to use `PIPView` called `RawPIPView`.
+
 ## [0.9.6-nullsafety]
 
 * Sound null safety

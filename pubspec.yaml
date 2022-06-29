@@ -1,6 +1,6 @@
 name: pip_view
 description: Widget to allow the presentation of a widget below a floating one.
-version: 0.9.6-nullsafety
+version: 0.9.7
 homepage: https://github.com/lslv1243/pip_view
 
 environment:
