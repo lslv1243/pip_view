@@ -2,7 +2,7 @@
 
 Widget to allow the presentation of a widget below a floating one. It supports moving the floating widget around which sticks to the corners.
 
-![Example GIF](doc/example.gif)
+![Example GIF](https://github.com/lslv1243/pip_view/raw/master/doc/example.gif)
 
 ## Usage
 
