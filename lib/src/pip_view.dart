@@ -230,36 +230,50 @@ class PIPViewState extends State<PIPView> with TickerProviderStateMixin {
                 return Positioned(
                   left: floatingOffset.dx,
                   top: floatingOffset.dy,
-                  child: GestureDetector(
-                    onPanStart: isFloating ? _onPanStart : null,
-                    onPanUpdate: isFloating ? _onPanUpdate : null,
-                    onPanCancel: isFloating ? _onPanCancel : null,
-                    onPanEnd: isFloating ? _onPanEnd : null,
-                    onTap: isFloating ? stopFloating : null,
-                    child: Material(
-                      elevation: 10,
-                      borderRadius: BorderRadius.circular(borderRadius),
-                      child: Container(
-                        clipBehavior: Clip.antiAlias,
-                        decoration: BoxDecoration(
-                          color: Colors.transparent,
+                  child: Stack(
+                    children: [
+                      GestureDetector(
+                        onPanStart: isFloating ? _onPanStart : null,
+                        onPanUpdate: isFloating ? _onPanUpdate : null,
+                        onPanCancel: isFloating ? _onPanCancel : null,
+                        onPanEnd: isFloating ? _onPanEnd : null,
+                        onTap: isFloating ? stopFloating : null,
+                        child: Material(
+                          elevation: 10,
                           borderRadius: BorderRadius.circular(borderRadius),
-                        ),
-                        width: width,
-                        height: height,
-                        child: Transform.scale(
-                          scale: scale,
-                          child: OverflowBox(
-                            maxHeight: fullWidgetSize.height,
-                            maxWidth: fullWidgetSize.width,
-                            child: IgnorePointer(
-                              ignoring: isFloating,
-                              child: child,
+                          child: Container(
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              borderRadius: BorderRadius.circular(borderRadius),
+                            ),
+                            width: width,
+                            height: height,
+                            child: Transform.scale(
+                              scale: scale,
+                              child: OverflowBox(
+                                maxHeight: fullWidgetSize.height,
+                                maxWidth: fullWidgetSize.width,
+                                child: IgnorePointer(
+                                  ignoring: isFloating,
+                                  child: child,
+                                ),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: IconButton(
+                          onPressed: (){
+                            Navigator.of(context).pop();
+                          },
+                            icon: Icon(Icons.close)
+                          ),
+                      )
+                    ],
                   ),
                 );
               },
