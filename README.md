@@ -53,3 +53,4 @@ class MyBackgroundScreen extends StatelessWidget {
 }
 ```
 
+NOTE: If you want a more declarative way of using the `PIPView`, you can use `RawPIPView` instead.
