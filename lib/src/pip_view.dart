@@ -8,6 +8,7 @@ class PIPView extends StatefulWidget {
   final double? floatingWidth;
   final double? floatingHeight;
   final bool avoidKeyboard;
+  final VoidCallback? onStopFloating;
 
   final Widget Function(
     BuildContext context,
@@ -21,6 +22,7 @@ class PIPView extends StatefulWidget {
     this.floatingWidth,
     this.floatingHeight,
     this.avoidKeyboard = true,
+    this.onStopFloating,
   }) : super(key: key);
 
   @override
@@ -42,6 +44,7 @@ class PIPViewState extends State<PIPView> with TickerProviderStateMixin {
   void stopFloating() {
     dismissKeyboard(context);
     setState(() => _bottomWidget = null);
+    widget.onStopFloating?.call();
   }
 
   @override
