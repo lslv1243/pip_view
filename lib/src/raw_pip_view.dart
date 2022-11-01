@@ -6,6 +6,7 @@ class RawPIPView extends StatefulWidget {
   final PIPViewCorner initialCorner;
   final double? floatingWidth;
   final double? floatingHeight;
+  final double? floatingBorderRadius;
   final bool avoidKeyboard;
   final Widget? topWidget;
   final Widget? bottomWidget;
@@ -20,11 +21,14 @@ class RawPIPView extends StatefulWidget {
     this.initialCorner = PIPViewCorner.topRight,
     this.floatingWidth,
     this.floatingHeight,
+    double? floatingBorderRadius,
     this.avoidKeyboard = true,
     this.topWidget,
     this.bottomWidget,
     this.onTapTopWidget,
-  }) : super(key: key);
+  }) :
+        this.floatingBorderRadius = floatingBorderRadius ?? defaultFloatingBorderRadius,
+        super(key: key);
 
   @override
   RawPIPViewState createState() => RawPIPViewState();
@@ -200,14 +204,14 @@ class RawPIPViewState extends State<RawPIPView> with TickerProviderStateMixin {
                   final floatingOffset = _isDragging
                       ? _dragOffset
                       : Tween<Offset>(
-                          begin: _dragOffset,
-                          end: calculatedOffset,
-                        ).transform(_dragAnimationController.isAnimating
-                          ? dragAnimationValue
-                          : toggleFloatingAnimationValue);
+                    begin: _dragOffset,
+                    end: calculatedOffset,
+                  ).transform(_dragAnimationController.isAnimating
+                      ? dragAnimationValue
+                      : toggleFloatingAnimationValue);
                   final borderRadius = Tween<double>(
                     begin: 0,
-                    end: 10,
+                    end: widget.floatingBorderRadius!,
                   ).transform(toggleFloatingAnimationValue);
                   final width = Tween<double>(
                     begin: fullWidgetSize.width,
@@ -287,9 +291,9 @@ PIPViewCorner _calculateNearestCorner({
   _CornerDistance calculateDistance(PIPViewCorner corner) {
     final distance = offsets[corner]!
         .translate(
-          -offset.dx,
-          -offset.dy,
-        )
+      -offset.dx,
+      -offset.dy,
+    )
         .distanceSquared;
     return _CornerDistance(
       corner: corner,
