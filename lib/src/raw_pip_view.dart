@@ -21,13 +21,12 @@ class RawPIPView extends StatefulWidget {
     this.initialCorner = PIPViewCorner.topRight,
     this.floatingWidth,
     this.floatingHeight,
-    double? floatingBorderRadius,
+    this.floatingBorderRadius,
     this.avoidKeyboard = true,
     this.topWidget,
     this.bottomWidget,
     this.onTapTopWidget,
   }) :
-        this.floatingBorderRadius = floatingBorderRadius ?? defaultFloatingBorderRadius,
         super(key: key);
 
   @override
@@ -211,7 +210,8 @@ class RawPIPViewState extends State<RawPIPView> with TickerProviderStateMixin {
                       : toggleFloatingAnimationValue);
                   final borderRadius = Tween<double>(
                     begin: 0,
-                    end: widget.floatingBorderRadius!,
+                    end: widget.floatingBorderRadius ??
+                        defaultFloatingBorderRadius,
                   ).transform(toggleFloatingAnimationValue);
                   final width = Tween<double>(
                     begin: fullWidgetSize.width,
