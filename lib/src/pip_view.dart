@@ -7,7 +7,10 @@ class PIPView extends StatefulWidget {
   final PIPViewCorner initialCorner;
   final double? floatingWidth;
   final double? floatingHeight;
+  final double? floatingBorderRadius;
   final bool avoidKeyboard;
+  final bool useFixedSize;
+  final VoidCallback? onExpanded;
 
   final Widget Function(
     BuildContext context,
@@ -20,7 +23,10 @@ class PIPView extends StatefulWidget {
     this.initialCorner = PIPViewCorner.topRight,
     this.floatingWidth,
     this.floatingHeight,
+    this.floatingBorderRadius = 10.0,
     this.avoidKeyboard = true,
+    this.useFixedSize = false,
+    this.onExpanded,
   }) : super(key: key);
 
   @override
@@ -42,6 +48,9 @@ class PIPViewState extends State<PIPView> with TickerProviderStateMixin {
   void stopFloating() {
     dismissKeyboard(context);
     setState(() => _bottomWidget = null);
+    if (widget.onExpanded != null) {
+      widget.onExpanded!();
+    }
   }
 
   @override
@@ -49,6 +58,7 @@ class PIPViewState extends State<PIPView> with TickerProviderStateMixin {
     final isFloating = _bottomWidget != null;
     return RawPIPView(
       avoidKeyboard: widget.avoidKeyboard,
+      useFixedSize: widget.useFixedSize,
       bottomWidget: isFloating
           ? Navigator(
               onGenerateInitialRoutes: (navigator, initialRoute) => [
@@ -65,6 +75,7 @@ class PIPViewState extends State<PIPView> with TickerProviderStateMixin {
       ),
       floatingHeight: widget.floatingHeight,
       floatingWidth: widget.floatingWidth,
+      floatingBorderRadius: widget.floatingBorderRadius,
       initialCorner: widget.initialCorner,
     );
   }

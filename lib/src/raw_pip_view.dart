@@ -6,7 +6,9 @@ class RawPIPView extends StatefulWidget {
   final PIPViewCorner initialCorner;
   final double? floatingWidth;
   final double? floatingHeight;
+  final double? floatingBorderRadius;
   final bool avoidKeyboard;
+  final bool useFixedSize;
   final Widget? topWidget;
   final Widget? bottomWidget;
   // this is exposed because trying to watch onTap event
@@ -20,7 +22,9 @@ class RawPIPView extends StatefulWidget {
     this.initialCorner = PIPViewCorner.topRight,
     this.floatingWidth,
     this.floatingHeight,
+    this.floatingBorderRadius = 10.0,
     this.avoidKeyboard = true,
+    this.useFixedSize = false,
     this.topWidget,
     this.bottomWidget,
     this.onTapTopWidget,
@@ -88,8 +92,7 @@ class RawPIPViewState extends State<RawPIPView> with TickerProviderStateMixin {
   }
 
   bool _isAnimating() {
-    return _toggleFloatingAnimationController.isAnimating ||
-        _dragAnimationController.isAnimating;
+    return _toggleFloatingAnimationController.isAnimating || _dragAnimationController.isAnimating;
   }
 
   void _onPanUpdate(DragUpdateDetails details) {
@@ -149,17 +152,18 @@ class RawPIPViewState extends State<RawPIPView> with TickerProviderStateMixin {
         final bottomWidget = widget.bottomWidget ?? _bottomWidgetGhost;
         final width = constraints.maxWidth;
         final height = constraints.maxHeight;
+        final useFixedSize = widget.useFixedSize && widget.floatingWidth != null && widget.floatingHeight != null;
         double? floatingWidth = widget.floatingWidth;
         double? floatingHeight = widget.floatingHeight;
-        if (floatingWidth == null && floatingHeight != null) {
-          floatingWidth = width / height * floatingHeight;
-        }
-        floatingWidth ??= 100.0;
-        if (floatingHeight == null) {
-          floatingHeight = height / width * floatingWidth;
+        if (!useFixedSize) {
+          if (floatingWidth == null && floatingHeight != null) {
+            floatingWidth = width / height * floatingHeight;
+          }
+          floatingWidth ??= 100.0;
+          floatingHeight ??= height / width * floatingWidth;
         }
 
-        final floatingWidgetSize = Size(floatingWidth, floatingHeight);
+        final floatingWidgetSize = Size(floatingWidth!, floatingHeight!);
         final fullWidgetSize = Size(width, height);
 
         _updateCornersOffsets(
@@ -173,9 +177,8 @@ class RawPIPViewState extends State<RawPIPView> with TickerProviderStateMixin {
         // BoxFit.cover
         final widthRatio = floatingWidth / width;
         final heightRatio = floatingHeight / height;
-        final scaledDownScale = widthRatio > heightRatio
-            ? floatingWidgetSize.width / fullWidgetSize.width
-            : floatingWidgetSize.height / fullWidgetSize.height;
+        final scaledDownScale =
+            widthRatio > heightRatio ? floatingWidgetSize.width / fullWidgetSize.width : floatingWidgetSize.height / fullWidgetSize.height;
 
         return Stack(
           children: <Widget>[
@@ -202,12 +205,10 @@ class RawPIPViewState extends State<RawPIPView> with TickerProviderStateMixin {
                       : Tween<Offset>(
                           begin: _dragOffset,
                           end: calculatedOffset,
-                        ).transform(_dragAnimationController.isAnimating
-                          ? dragAnimationValue
-                          : toggleFloatingAnimationValue);
+                        ).transform(_dragAnimationController.isAnimating ? dragAnimationValue : toggleFloatingAnimationValue);
                   final borderRadius = Tween<double>(
                     begin: 0,
-                    end: 10,
+                    end: widget.floatingBorderRadius,
                   ).transform(toggleFloatingAnimationValue);
                   final width = Tween<double>(
                     begin: fullWidgetSize.width,
@@ -241,14 +242,16 @@ class RawPIPViewState extends State<RawPIPView> with TickerProviderStateMixin {
                           ),
                           width: width,
                           height: height,
-                          child: Transform.scale(
-                            scale: scale,
-                            child: OverflowBox(
-                              maxHeight: fullWidgetSize.height,
-                              maxWidth: fullWidgetSize.width,
-                              child: child,
-                            ),
-                          ),
+                          child: useFixedSize
+                              ? child
+                              : Transform.scale(
+                                  scale: scale,
+                                  child: OverflowBox(
+                                    maxHeight: fullWidgetSize.height,
+                                    maxWidth: fullWidgetSize.width,
+                                    child: child,
+                                  ),
+                                ),
                         ),
                       ),
                     ),
@@ -310,13 +313,11 @@ Map<PIPViewCorner, Offset> _calculateOffsets({
   required EdgeInsets windowPadding,
 }) {
   Offset getOffsetForCorner(PIPViewCorner corner) {
-    final spacing = 16;
+    const spacing = 16;
     final left = spacing + windowPadding.left;
     final top = spacing + windowPadding.top;
-    final right =
-        spaceSize.width - widgetSize.width - windowPadding.right - spacing;
-    final bottom =
-        spaceSize.height - widgetSize.height - windowPadding.bottom - spacing;
+    final right = spaceSize.width - widgetSize.width - windowPadding.right - spacing;
+    final bottom = spaceSize.height - widgetSize.height - windowPadding.bottom - spacing;
 
     switch (corner) {
       case PIPViewCorner.topLeft:
@@ -332,7 +333,7 @@ Map<PIPViewCorner, Offset> _calculateOffsets({
     }
   }
 
-  final corners = PIPViewCorner.values;
+  const corners = PIPViewCorner.values;
   final Map<PIPViewCorner, Offset> offsets = {};
   for (final corner in corners) {
     offsets[corner] = getOffsetForCorner(corner);
