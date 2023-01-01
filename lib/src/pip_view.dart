@@ -53,9 +53,10 @@ class PIPViewState extends State<PIPView> with TickerProviderStateMixin {
     }
   }
 
+  bool get isFloating => _bottomWidget != null;
+
   @override
   Widget build(BuildContext context) {
-    final isFloating = _bottomWidget != null;
     return RawPIPView(
       avoidKeyboard: widget.avoidKeyboard,
       useFixedSize: widget.useFixedSize,
