@@ -9,6 +9,8 @@ class PIPView extends StatefulWidget {
   final double? floatingHeight;
   final bool avoidKeyboard;
 
+  final Widget? floatingWidget;
+
   final Widget Function(
     BuildContext context,
     bool isFloating,
@@ -17,6 +19,7 @@ class PIPView extends StatefulWidget {
   const PIPView({
     Key? key,
     required this.builder,
+    this.floatingWidget,
     this.initialCorner = PIPViewCorner.topRight,
     this.floatingWidth,
     this.floatingHeight,
@@ -33,15 +36,22 @@ class PIPView extends StatefulWidget {
 
 class PIPViewState extends State<PIPView> with TickerProviderStateMixin {
   Widget? _bottomWidget;
+  Size? _initialWidgetSize;
 
-  void presentBelow(Widget widget) {
+  void presentBelow(Widget widget, {Size? initialWidgetSize}) {
     dismissKeyboard(context);
-    setState(() => _bottomWidget = widget);
+    setState(() {
+      _initialWidgetSize = initialWidgetSize;
+      _bottomWidget = widget;
+    });
   }
 
   void stopFloating() {
     dismissKeyboard(context);
-    setState(() => _bottomWidget = null);
+    setState(() {
+      _bottomWidget = null;
+      _initialWidgetSize = null;
+    });
   }
 
   @override
@@ -49,6 +59,7 @@ class PIPViewState extends State<PIPView> with TickerProviderStateMixin {
     final isFloating = _bottomWidget != null;
     return RawPIPView(
       avoidKeyboard: widget.avoidKeyboard,
+      floatingWidgetSize: _initialWidgetSize,
       bottomWidget: isFloating
           ? Navigator(
               onGenerateInitialRoutes: (navigator, initialRoute) => [
@@ -59,9 +70,11 @@ class PIPViewState extends State<PIPView> with TickerProviderStateMixin {
       onTapTopWidget: isFloating ? stopFloating : null,
       topWidget: IgnorePointer(
         ignoring: isFloating,
-        child: Builder(
-          builder: (context) => widget.builder(context, isFloating),
-        ),
+        child: (isFloating && widget.floatingWidget != null)
+            ? widget.floatingWidget
+            : Builder(
+                builder: (context) => widget.builder(context, isFloating),
+              ),
       ),
       floatingHeight: widget.floatingHeight,
       floatingWidth: widget.floatingWidth,

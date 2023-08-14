@@ -7,6 +7,7 @@ class RawPIPView extends StatefulWidget {
   final double? floatingWidth;
   final double? floatingHeight;
   final bool avoidKeyboard;
+  final Size? floatingWidgetSize;
   final Widget? topWidget;
   final Widget? bottomWidget;
   // this is exposed because trying to watch onTap event
@@ -22,6 +23,7 @@ class RawPIPView extends StatefulWidget {
     this.floatingHeight,
     this.avoidKeyboard = true,
     this.topWidget,
+    this.floatingWidgetSize,
     this.bottomWidget,
     this.onTapTopWidget,
   }) : super(key: key);
@@ -151,13 +153,24 @@ class RawPIPViewState extends State<RawPIPView> with TickerProviderStateMixin {
         final height = constraints.maxHeight;
         double? floatingWidth = widget.floatingWidth;
         double? floatingHeight = widget.floatingHeight;
+
+        double? initialWidth;
+        double? initialHeight;
+        if (widget.floatingWidgetSize != null) {
+          initialWidth = widget.floatingWidgetSize!.width;
+          initialHeight = widget.floatingWidgetSize!.height;
+        }
+
+        // falllback to the screen size
+        initialWidth ??= width;
+        initialHeight ??= height;
+
         if (floatingWidth == null && floatingHeight != null) {
-          floatingWidth = width / height * floatingHeight;
+          floatingWidth = initialWidth / initialHeight * floatingHeight;
         }
+
         floatingWidth ??= 100.0;
-        if (floatingHeight == null) {
-          floatingHeight = height / width * floatingWidth;
-        }
+        floatingHeight ??= initialHeight / initialWidth * floatingWidth;
 
         final floatingWidgetSize = Size(floatingWidth, floatingHeight);
         final fullWidgetSize = Size(width, height);
